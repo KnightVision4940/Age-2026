@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import frc.robot.Constants;
@@ -21,5 +20,9 @@ public class Shooter extends SubsystemBase {
 
   public void shooterShoot(double speed){
     shooterMotor.set(speed);
+  }
+
+  public void Stop(){
+    shooterMotor.set(0);
   }
 }
