@@ -11,22 +11,43 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   public SparkMax m_intake; 
   
   /** Creates a new Intake. */
   public Intake() {
-    m_intake = new SparkMax(2, MotorType.kBrushless);
+    m_intake = new SparkMax(Constants.Motors.Intake.kId, MotorType.kBrushless);
 
     SparkMaxConfig config = new SparkMaxConfig();
     config
-        .smartCurrentLimit(40)
+        .smartCurrentLimit(Constants.Motors.Intake.kCurrentLimit)
         .idleMode(IdleMode.kBrake);
 
     // Persist parameters to retain configuration in the event of a power cycle
     m_intake.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+
+  }
+
+  public Command intakeCommand(double speed) {
+    return this.runEnd(() ->
+    {
+      spin(speed);
+    }, () -> {
+      stop();
+    });
+  }
+
+  public void spin(double speed) {
+    m_intake.set(speed);  
+  }
+
+  public void stop() {
+    m_intake.set(0);
   }
 
   @Override
