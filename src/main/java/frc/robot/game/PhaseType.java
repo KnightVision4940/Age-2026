@@ -10,11 +10,11 @@ public enum PhaseType {
     END_GAME(7, 30, true, "End Game");
 
 
-    final int numberRepresentation;
+    private final int numberRepresentation;
     public int getNumberRepresentation() {return numberRepresentation;}
 
     
-    final int length;
+    private final int length;
     /**
      * @return the length in seconds
      */
@@ -23,7 +23,7 @@ public enum PhaseType {
     final boolean isTeleop;
     public boolean isTeleop() {return isTeleop;}
 
-    final String notificationName;
+    private final String notificationName;
     public String getNotificationName() {return notificationName;}
 
 

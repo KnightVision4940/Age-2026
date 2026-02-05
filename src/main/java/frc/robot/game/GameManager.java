@@ -12,7 +12,7 @@ public class GameManager {
     ElasticManager elasticManager = new ElasticManager(this);
 
     private HubStatus hubStatus = HubStatus.FFA;
-    public HubStatus geHubStatus() {return hubStatus;}
+    public HubStatus getHubStatus() {return hubStatus;}
 
     private PhaseType phase = PhaseType.AUTO;
     public PhaseType getPhase() {return phase;}
@@ -42,33 +42,33 @@ public class GameManager {
     }
 
     public void onPhaseChange(PhaseType newPhase) {
-        //End game and autonomous is FFA
+        // End game and autonomous is FFA
         if (newPhase != PhaseType.AUTO && newPhase != PhaseType.END_GAME) {
             if (redPoints > bluePoints)
-                hubStatus = HubStatus.BLUE_OPEN;
-            else if (redPoints < bluePoints)
                 hubStatus = HubStatus.RED_OPEN;
-            else //lets assume the rule is that if both teams have an equal amount of points, it becomes FFA
+            else if (redPoints < bluePoints)
+                hubStatus = HubStatus.BLUE_OPEN;
+            else // if both teams have an equal amount of points, it becomes FFA
                 hubStatus = HubStatus.FFA;
         }
     }
 
     /**
-     * Uses time to check the current game phase. Defaults to AUTO if unable to calculate the phase for some reason.
+     * Uses time to check the current game phase. Defaults to END_GAME if unable to calculate the phase for some reason.
      * @return the current game phase
      */
     public PhaseType calculatePhase() {
         long timeDifference = System.currentTimeMillis() - timeStarted;
-        
-        int combinedLength = 0;
-        for (int i = 0; PhaseType.values().length > i; i++) {
+
+        long combinedLength = 0L;
+        for (int i = 0; i < PhaseType.values().length; i++) {
             PhaseType phase = PhaseType.values()[i];
-            combinedLength += Units.secondsToMilliseconds(phase.length);
+            combinedLength += Units.secondsToMilliseconds(phase.getLength());
 
             if (timeDifference < combinedLength)
                 return phase;
         }
 
-        return PhaseType.AUTO;
+        return PhaseType.END_GAME;
     }
 }
