@@ -3,13 +3,13 @@ package frc.robot.game;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.game.shuffleboard.ShuffleboardManager;
+import frc.robot.game.dashboard.ElasticManager;
 
 //TODO: integrate this tuff code into the actual robot code
 public class GameManager {
     int redPoints = 0;
     int bluePoints = 0;
-    ShuffleboardManager shuffleboardManager = new ShuffleboardManager(this);
+    ElasticManager elasticManager = new ElasticManager(this);
 
     private HubStatus hubStatus = HubStatus.FFA;
     public HubStatus geHubStatus() {return hubStatus;}
@@ -34,10 +34,11 @@ public class GameManager {
 
         if (phase != calculatedPhase) {
             onPhaseChange(calculatedPhase);
+            elasticManager.onPhaseChange(calculatedPhase, hubStatus);
             phase = calculatedPhase;
         }
 
-        shuffleboardManager.update();
+        elasticManager.update();
     }
 
     public void onPhaseChange(PhaseType newPhase) {
@@ -50,7 +51,6 @@ public class GameManager {
             else //lets assume the rule is that if both teams have an equal amount of points, it becomes FFA
                 hubStatus = HubStatus.FFA;
         }
-
     }
 
     /**
@@ -63,7 +63,7 @@ public class GameManager {
         int combinedLength = 0;
         for (int i = 0; PhaseType.values().length > i; i++) {
             PhaseType phase = PhaseType.values()[i];
-            combinedLength += phase.length;
+            combinedLength += Units.secondsToMilliseconds(phase.length);
 
             if (timeDifference < combinedLength)
                 return phase;
