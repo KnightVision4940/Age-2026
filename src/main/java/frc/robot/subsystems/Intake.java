@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void spin(double speed) {
-    m_intake.set(speed);  
+    m_intake.set(speed);
   }
 
   public void stop() {
