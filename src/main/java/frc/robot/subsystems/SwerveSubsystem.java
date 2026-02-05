@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Meter;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -11,17 +13,34 @@ import java.io.File;
 import edu.wpi.first.wpilibj.Filesystem;
 import swervelib.parser.SwerveParser;
 import swervelib.SwerveDrive;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 public class SwerveSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
-  double maximumSpeed = Units.feetToMeters(4.5);
-  File directory = new File(Filesystem.getDeployDirectory(),"swerve");
-  SwerveDrive  swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
+  double maximumSpeed;
+  File directory;
+  SwerveDrive  swerveDrive;
 
-  public SwerveSubsystem() {}
-
+  public SwerveSubsystem() {
+    maximumSpeed = Units.feetToMeters(4.5);
+    directory = new File(Filesystem.getDeployDirectory(),"swerve");
+    try {
+      swerveDrive = new SwerveParser(directory).createSwerveDrive(
+        maximumSpeed,
+        new Pose2d(
+          new Translation2d(Meter.of(1),
+          Meter.of(4)
+          ),
+      Rotation2d.fromDegrees(0)));
+    } catch(Exception error){
+      System.err.println(error);
+    }
+  }
+ 
   /**
    * Example command factory method.
    *
@@ -55,4 +74,9 @@ public class SwerveSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
+
+public SwerveDrive getSwerveDrive() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getSwerveDrive'");
+}
 }
