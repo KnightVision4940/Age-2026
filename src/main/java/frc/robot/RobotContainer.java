@@ -52,6 +52,13 @@ public class RobotContainer {
     m_driverController.a().whileTrue(intake.intakeCommand(1));
     m_driverController.b().whileTrue(new AutoIntake(intake));
   }
-}
 
+  public Command getAutonomousCommand() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getAutonomousCommand'");
+  }
+
+  
+}
+  
 
