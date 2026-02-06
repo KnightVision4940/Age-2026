@@ -2,13 +2,12 @@ package frc.robot.game;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.game.dashboard.ElasticManager;
 
 //TODO: integrate this tuff code into the actual robot code
 public class GameManager {
-    int redPoints = 0;
-    int bluePoints = 0;
     ElasticManager elasticManager = new ElasticManager(this);
 
     private HubStatus hubStatus = HubStatus.FFA;
@@ -19,38 +18,51 @@ public class GameManager {
 
     Alliance robotTeam;
     
+    double timeStarted;
+    
+    boolean waitingForGameData = true;
 
-    public long timeStarted;
-
+    
 
     public GameManager(Alliance robotTeam) {
         this.robotTeam = robotTeam;
 
-        timeStarted = System.currentTimeMillis();
+        timeStarted = Timer.getFPGATimestamp();
     }
 
     public void periodic() {
         PhaseType calculatedPhase = calculatePhase();
 
         if (phase != calculatedPhase) {
-            onPhaseChange(calculatedPhase);
-            elasticManager.onPhaseChange(calculatedPhase, hubStatus);
+            elasticManager.updateDashboard(calculatedPhase, hubStatus);
             phase = calculatedPhase;
         }
 
-        elasticManager.update();
+        String data = DriverStation.getGameSpecificMessage();
+        if (
+            phase != PhaseType.TRANSITION_SHIFT &&
+            waitingForGameData &&
+            data.length() != 0
+            ) {
+            char inactiveHub = data.charAt(0);
+
+            switch (inactiveHub) {
+                case 'R':
+                    hubStatus = HubStatus.BLUE_ACTIVE;
+                    break;
+                case 'B':
+                    hubStatus = HubStatus.RED_ACTIVE;
+                    break;
+            }
+
+            waitingForGameData = false;
+        }
+
+        elasticManager.updateCountdown(phase);
     }
 
-    public void onPhaseChange(PhaseType newPhase) {
-        // End game and autonomous is FFA
-        if (newPhase != PhaseType.AUTO && newPhase != PhaseType.END_GAME) {
-            if (redPoints > bluePoints)
-                hubStatus = HubStatus.RED_OPEN;
-            else if (redPoints < bluePoints)
-                hubStatus = HubStatus.BLUE_OPEN;
-            else // if both teams have an equal amount of points, it becomes FFA
-                hubStatus = HubStatus.FFA;
-        }
+    public void updateHubStatus(PhaseType phaseType) {
+
     }
 
     /**
@@ -58,12 +70,12 @@ public class GameManager {
      * @return the current game phase
      */
     public PhaseType calculatePhase() {
-        long timeDifference = System.currentTimeMillis() - timeStarted;
+        double timeDifference = Timer.getFPGATimestamp() - timeStarted;
 
-        long combinedLength = 0L;
-        for (int i = 0; i < PhaseType.values().length; i++) {
+        double combinedLength = 0;
+        for (int i = 0; i < PhaseType.values().length - 1; i++) {
             PhaseType phase = PhaseType.values()[i];
-            combinedLength += Units.secondsToMilliseconds(phase.getLength());
+            combinedLength += phase.getLength();
 
             if (timeDifference < combinedLength)
                 return phase;

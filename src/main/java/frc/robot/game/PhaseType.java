@@ -26,7 +26,12 @@ public enum PhaseType {
     private final String notificationName;
     public String getNotificationName() {return notificationName;}
 
-
+    /**
+     * @param numberRepresentation the order in which the phases happen
+     * @param length how long the phase lasts in seconds
+     * @param isTeleop whether the phase is teleoperated
+     * @param notificationName how the name of the phase displays in an Elastic dashboard
+     */
     PhaseType(int numberRepresentation, int length, boolean isTeleop, String notificationName) {
         this.numberRepresentation = numberRepresentation;
         this.length = length;

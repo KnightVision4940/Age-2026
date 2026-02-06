@@ -1,8 +1,8 @@
 package frc.robot.game;
 
 public enum HubStatus {
-    RED_OPEN("Red Open"),
-    BLUE_OPEN("Blue Open"),
+    RED_ACTIVE("Red Active"),
+    BLUE_ACTIVE("Blue Active"),
     FFA("Free-For-All");
 
     String notificationName;
