@@ -21,7 +21,6 @@ public class GameManager {
     double timeStarted;
     
     boolean waitingForGameData = true;
-
     
 
     public GameManager(Alliance robotTeam) {
@@ -36,8 +35,10 @@ public class GameManager {
         if (phase != calculatedPhase) {
             elasticManager.updateDashboard(calculatedPhase, hubStatus);
             phase = calculatedPhase;
+            
+            if (!waitingForGameData) updateHubStatus(phase);
         }
-
+        
         String data = DriverStation.getGameSpecificMessage();
         if (
             phase != PhaseType.TRANSITION_SHIFT &&
@@ -62,7 +63,13 @@ public class GameManager {
     }
 
     public void updateHubStatus(PhaseType phaseType) {
-
+        if (!phaseType.isAllianceShift()) {
+            hubStatus = HubStatus.FFA;
+            return;
+        }
+        hubStatus = (hubStatus == HubStatus.BLUE_ACTIVE)
+            ? HubStatus.RED_ACTIVE
+            : HubStatus.BLUE_ACTIVE;
     }
 
     /**

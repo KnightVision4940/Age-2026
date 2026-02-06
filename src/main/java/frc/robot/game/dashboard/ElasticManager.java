@@ -58,7 +58,6 @@ public class ElasticManager {
         }
 
         SmartDashboard.putString("Hub Status", color.toHexString());
-
         SmartDashboard.putString("Current Phase", newPhase.getNotificationName());
     }
 }

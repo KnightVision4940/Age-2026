@@ -5,7 +5,7 @@ public enum HubStatus {
     BLUE_ACTIVE("Blue Active"),
     FFA("Free-For-All");
 
-    String notificationName;
+    private final String notificationName;
     public String getNotificationName() {return notificationName;}
 
     HubStatus(String notificationName) {
