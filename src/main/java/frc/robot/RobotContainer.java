@@ -35,17 +35,25 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() { 
-
-    // We assume the code starts when the match starts.
-    try {
-      gameManager = new GameManager(DriverStation.getAlliance().get());
-    } catch (NoSuchElementException exception) {
-      System.out.println("Unable to get current alliance. Alliance is null!\n");
-    }
-
+  public RobotContainer() {
     //Configure the bindings for our Xbox controllers and triggers.
     configureBindings();
+  }
+
+  public void periodic() {
+    if (gameManager == null) {
+      try {
+        gameManager = new GameManager(DriverStation.getAlliance().get());
+      } catch (NoSuchElementException exception) {
+        System.out.println("Unable to get current alliance. Alliance is null!");
+      }
+    } else {
+      try {
+        gameManager.periodic();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   /**
