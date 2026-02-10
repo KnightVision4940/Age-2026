@@ -41,4 +41,32 @@ public class ShooterTenPercent extends Command {
   public boolean isFinished() {
     return false;
   }
-}
+} 
+
+/*             
+ *     _________\/_________     
+ *    |                    |
+ *    |     |        |     |
+ *  \ |     |        |     | /
+ *   \|                    |/
+ *    |     |________|     |
+ *    |                    |  \
+ *    |____________________|   \
+ *       |             |        \
+ *       |             |         \  TWIN BROTHERS
+ *       |_           _|         / 
+ * Jeff                         /
+ *                             / 
+ *                            /  
+ *     _________\/_________  /          
+ *    |    ___      ___    |/
+ *    |     |        |     |
+ *    |     |        |     | 
+ *   /|                    |\
+ *  / |     |________|     | \
+ *    |                    |
+ *    |____________________|
+ *       |             |
+ *      _|             |_
+ * Jeff's older brother named Jeff^2
+ */

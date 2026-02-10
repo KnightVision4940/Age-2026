@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import frc.robot.Constants;
 
 
+
 public class Shooter extends SubsystemBase {
 
   SparkMax shooterMotor;
