@@ -18,8 +18,9 @@ public class GameManager {
 
     Alliance robotTeam;
     
-    double timeStarted;
-    
+    private double timeStarted;
+    public double getTimeStarted() {return timeStarted;}
+
     boolean waitingForGameData = true;
     
 
@@ -33,13 +34,14 @@ public class GameManager {
         PhaseType calculatedPhase = calculatePhase();
 
         if (phase != calculatedPhase) {
+            if (!waitingForGameData) updateHubStatus(calculatedPhase);
+
             elasticManager.updateDashboard(calculatedPhase, hubStatus);
-            phase = calculatedPhase;
             
-            if (!waitingForGameData) updateHubStatus(phase);
+            phase = calculatedPhase;
         }
         
-        String data = DriverStation.getGameSpecificMessage();
+        String data = "R"; //DriverStation.getGameSpecificMessage();
         if (
             phase != PhaseType.TRANSITION_SHIFT &&
             waitingForGameData &&
@@ -63,7 +65,8 @@ public class GameManager {
     }
 
     public void updateHubStatus(PhaseType phaseType) {
-        if (!phaseType.isAllianceShift()) {
+        // Checks if the phase is an alliance
+        if (!phaseType.name().contains("ALLIANCE")) {
             hubStatus = HubStatus.FFA;
             return;
         }
@@ -84,6 +87,7 @@ public class GameManager {
             PhaseType phase = PhaseType.values()[i];
             combinedLength += phase.getLength();
 
+            // magic condition
             if (timeDifference < combinedLength)
                 return phase;
         }
