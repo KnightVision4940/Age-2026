@@ -20,19 +20,19 @@ import frc.robot.Constants;
 public class Intake extends SubsystemBase {
   public SparkMax m_roller;
   public SparkMax m_pivot; 
-  public SparkClosedLoopController m_pivotcontroller;
+  public SparkClosedLoopController m_pivotController;
   
   /** Creates a new Intake. */
   public Intake() {
-    m_roller = new SparkMax(Constants.Motors.Intake.kId, MotorType.kBrushless);
-    m_pivot = new SparkMax(Constants.Motors.Intake.kId, MotorType.kBrushless);
+    m_roller = new SparkMax(Constants.Motors.Intake.kRoller, MotorType.kBrushless);
+    m_pivot = new SparkMax(Constants.Motors.Intake.kPivot, MotorType.kBrushless);
     SparkMaxConfig config = new SparkMaxConfig();
     config
         .smartCurrentLimit(Constants.Motors.Intake.kCurrentLimit)
         .idleMode(IdleMode.kBrake);
     
     
-      m_pivotcontroller = m_pivot.getClosedLoopController();
+    m_pivotController = m_pivot.getClosedLoopController();
     config.closedLoop
       .p(1)
       .i(0)
@@ -50,7 +50,7 @@ public class Intake extends SubsystemBase {
     {
       spin(speed);
     }, () -> {
-      stop();
+      rollerStop();
     });
   }
 
@@ -60,11 +60,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void pivotIntake(double position){
-    m_pivotcontroller.setSetpoint(position, ControlType.kPosition);
+    m_pivotController.setSetpoint(position, ControlType.kPosition);
     
   }
 
-  public void stop() {
+  public void rollerStop() {
     m_roller.set(0);
   }
   public void pivotStop() {
