@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -56,7 +57,14 @@ public class Intake extends SubsystemBase {
 
   public void spin(double speed) {
     m_roller.set(speed);
-    
+  }
+
+  public void movePivot(double speed) {
+    m_pivot.set(speed);
+  }
+
+  public double getPivotPosition(){
+    return m_pivot.getAbsoluteEncoder().getPosition();
   }
 
   public void pivotIntake(double position){
@@ -75,6 +83,7 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Pivot Position", getPivotPosition());
   }
 
   

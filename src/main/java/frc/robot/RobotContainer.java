@@ -8,6 +8,7 @@ import frc.robot.Constants.Operators;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ManualIntake;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -51,6 +52,8 @@ public class RobotContainer {
 
     m_driverController.a().whileTrue(intake.intakeCommand(1));
     m_driverController.b().whileTrue(new AutoIntake(intake));
+    m_driverController.povUp().whileTrue(new ManualIntake(intake, 0.2));
+    m_driverController.povDown().whileTrue(new ManualIntake(intake, -0.2));
   }
 
   public Command getAutonomousCommand() {
