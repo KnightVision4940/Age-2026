@@ -11,6 +11,8 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import frc.robot.Constants;
+import edu.wpi.first.units.measure.Velocity;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -36,5 +38,13 @@ public class Shooter extends SubsystemBase {
 
   public void Stop(){
     shooterMotor.set(0);
+  }
+
+  public double getCurrentVelocity(){
+    return shooterMotor.getEncoder().getVelocity();
+  }
+
+  public void periodic(){
+    SmartDashboard.putNumber("Shooter Velocity: ", getCurrentVelocity());
   }
 }

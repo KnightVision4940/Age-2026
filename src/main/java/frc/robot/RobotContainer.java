@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.subsystems.Shooter;
+import frc.robot.commands.ShooterVariableSpeed;;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -52,6 +53,10 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController.povUp().whileTrue(new ShooterVariableSpeed(m_Shooter, 1));
+    m_driverController.povRight().whileTrue(new ShooterVariableSpeed(m_Shooter, 0.75));
+    m_driverController.povDown().whileTrue(new ShooterVariableSpeed(m_Shooter, 0.5));
+    m_driverController.povLeft().whileTrue(new ShooterVariableSpeed(m_Shooter, 0.25));
   }
 
   /**
