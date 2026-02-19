@@ -20,19 +20,11 @@ public class ElasticManager {
         // Default values
         SmartDashboard.putNumber("Time Left in Phase", 20);
         SmartDashboard.putString("Hub Status", Constants.ElasticBoard.kDefaultHubStatusColor.toHexString());
+        SmartDashboard.putString("Current Phase", PhaseType.AUTO.name());
     }
 
     public void updateCountdown(PhaseType currentPhase) {
-        // Create a sum of all the phases' length that happen before the current. 
-        double elapsedBeforePhase = 0;
-        for (PhaseType phase : PhaseType.values()) {
-            if (phase.ordinal() < currentPhase.ordinal()) {
-                elapsedBeforePhase += phase.getLength();
-            }
-        }
-
-        double phaseStart = gameManager.getTimeStarted() + elapsedBeforePhase;
-        double elapsedInPhase = Timer.getFPGATimestamp() - phaseStart;
+        double elapsedInPhase = Timer.getFPGATimestamp() - gameManager.getPhaseTimeStarted();
 
         double remaining = currentPhase.getLength() - elapsedInPhase;
         if (remaining < 0) remaining = 0;
@@ -58,5 +50,6 @@ public class ElasticManager {
         }
 
         SmartDashboard.putString("Hub Status", color.toHexString());
+        SmartDashboard.putString("Current Phase", gameManager.getCurrentPhase().name());
     }
 }

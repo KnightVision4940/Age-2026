@@ -13,13 +13,13 @@ public class GameManager {
     private HubStatus hubStatus = HubStatus.FFA;
     public HubStatus getHubStatus() {return hubStatus;}
 
-    private PhaseType phase = PhaseType.AUTO;
-    public PhaseType getPhase() {return phase;}
+    private PhaseType currentPhase = PhaseType.AUTO;
+    public PhaseType getCurrentPhase() {return currentPhase;}
 
     Alliance robotTeam;
     
-    private double timeStarted;
-    public double getTimeStarted() {return timeStarted;}
+    private double phaseTimeStarted;
+    public double getPhaseTimeStarted() {return phaseTimeStarted;}
 
     boolean waitingForGameData = true;
     
@@ -27,23 +27,23 @@ public class GameManager {
     public GameManager(Alliance robotTeam) {
         this.robotTeam = robotTeam;
 
-        timeStarted = Timer.getFPGATimestamp();
+        phaseTimeStarted = Timer.getFPGATimestamp();
     }
 
     public void periodic() {
         PhaseType calculatedPhase = calculatePhase();
 
-        if (phase != calculatedPhase) {
+        if (currentPhase != calculatedPhase) {
             if (!waitingForGameData) updateHubStatus(calculatedPhase);
 
             elasticManager.updateDashboard(calculatedPhase, hubStatus);
             
-            phase = calculatedPhase;
+            currentPhase = calculatedPhase;
         }
         
         String data = "R"; //DriverStation.getGameSpecificMessage();
         if (
-            phase != PhaseType.TRANSITION_SHIFT &&
+            currentPhase != PhaseType.TRANSITION_SHIFT &&
             waitingForGameData &&
             data.length() != 0
             ) {
@@ -61,12 +61,12 @@ public class GameManager {
             waitingForGameData = false;
         }
 
-        elasticManager.updateCountdown(phase);
+        elasticManager.updateCountdown(currentPhase);
     }
 
-    public void updateHubStatus(PhaseType phaseType) {
-        // Checks if the phase is an alliance
-        if (!phaseType.name().contains("ALLIANCE")) {
+    public void updateHubStatus(PhaseType currentPhaseType) {
+        // Checks if the currentPhase is an alliance shift
+        if (!currentPhaseType.name().contains("ALLIANCE")) {
             hubStatus = HubStatus.FFA;
             return;
         }
@@ -76,22 +76,22 @@ public class GameManager {
     }
 
     /**
-     * Uses time to check the current game phase. Defaults to END_GAME if unable to calculate the phase for some reason.
+     * Uses time to check the current game phase. Defaults to AUTO if unable to calculate the currentPhase for some reason.
      * @return the current game phase
      */
     public PhaseType calculatePhase() {
-        double timeDifference = Timer.getFPGATimestamp() - timeStarted;
+        // How long the match has been going on for.
+        double phaseTime = Timer.getFPGATimestamp() - phaseTimeStarted;
 
-        double combinedLength = 0;
-        for (int i = 0; i < PhaseType.values().length - 1; i++) {
-            PhaseType phase = PhaseType.values()[i];
-            combinedLength += phase.getLength();
-
-            // magic condition
-            if (timeDifference < combinedLength)
-                return phase;
+        if (currentPhase.getLength() < phaseTime) {
+            if (currentPhase.ordinal() + 1 < PhaseType.values().length) {
+                phaseTimeStarted = Timer.getFPGATimestamp() + ;
+                return PhaseType.values()[currentPhase.ordinal() + 1];
+            }
+            else
+                return PhaseType.END_GAME;
         }
 
-        return PhaseType.END_GAME;
+        return PhaseType.AUTO;    
     }
 }
