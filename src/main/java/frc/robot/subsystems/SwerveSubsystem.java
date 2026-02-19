@@ -48,7 +48,6 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveSubsystem(File directory) {
     maximumSpeed = Units.feetToMeters(4.5);
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
-    directory = new File(Filesystem.getDeployDirectory(),"swerve");
     try {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(
         maximumSpeed,
@@ -60,7 +59,7 @@ public class SwerveSubsystem extends SubsystemBase {
       // Alternative method if you don't want to supply the conversion factor via JSON files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch(Exception error){
-      System.err.println(error);
+      throw new RuntimeException(error);
     }
   
  
@@ -70,10 +69,12 @@ public class SwerveSubsystem extends SubsystemBase {
   swerveDrive.setAutoCenteringModules(false);
   }
 
-public frc.robot.subsystems.PathPlannerAuto getAutonomousCommand(String pathName)
-{
-  return new PathPlannerAuto();
-}
+  public Command getAutonomousCommand(String pathName)
+  {
+    // Create a path following command using AutoBuilder. This will also trigger event markers.
+    return new PathPlannerAuto(pathName);
+  }
+
 
 public void driveFieldOriented(ChassisSpeeds velocity)
 {
@@ -175,7 +176,11 @@ public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity)
             }
           },
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
-          new PPHolonomicDriveController(
+          new PPHolonomicDriveController(// PPHolonomicController is the built in path following controller for holonomic drive trains
+              new PIDConstants(5.0, 0.0, 0.0),
+              // Translation PID constants
+              new PIDConstants(5.0, 0.0, 0.0)
+              // Rotation PID constants
           ),
           config,
           // The robot configuration
@@ -195,10 +200,10 @@ public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity)
           // Reference to this subsystem to set requirements
                            );
 
-    } catch (Exception e)
+    } catch (Exception error)
     {
       // Handle exception as needed
-      e.printStackTrace();
+      error.printStackTrace();
     }
 
     //Preload PathPlanner Path finding
@@ -221,9 +226,4 @@ public boolean getRobotRelative(){
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
-
-public SwerveDrive getSwerveDrive() {
-    return swerveDrive;
-}
 }
