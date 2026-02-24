@@ -64,7 +64,7 @@ public class Intake extends SubsystemBase {
   }
 
   public double getPivotPosition(){
-    return m_pivot.getAbsoluteEncoder().getPosition();
+    return m_pivot.getEncoder().getPosition();
   }
 
   public void pivotIntake(double position){
