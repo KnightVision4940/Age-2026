@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.Meter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -36,18 +37,16 @@ import edu.wpi.first.math.trajectory.Trajectory;
 public class SwerveSubsystem extends SubsystemBase {
   /** Creates a new SwerveModule. */
 
-  double maximumSpeed;
   SwerveDrive  swerveDrive;
   SparkMax driveMotor;
 
   private boolean robotRelative = false;
 
   public SwerveSubsystem(File directory) {
-    maximumSpeed = Units.feetToMeters(4.5);
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(
-        maximumSpeed,
+        Constants.maximumSpeed,
         new Pose2d(
           new Translation2d(Meter.of(1),
           Meter.of(4)

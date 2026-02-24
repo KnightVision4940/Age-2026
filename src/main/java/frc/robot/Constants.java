@@ -19,5 +19,5 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final double DEADBAND = 0.2;
   }
-  public static final double maximumSpeed = Units.feetToMeters(4.5);
+  public static final double maximumSpeed = Units.feetToMeters(9.0);
 }
