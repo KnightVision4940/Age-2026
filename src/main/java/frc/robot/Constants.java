@@ -24,7 +24,13 @@ public final class Constants {
       public static final int kCurrentLimit = 40;
       public static final int stowPosition = 0;
       public static final int grabPosition = 100;
+      public static Object m_shootfeed;
+      public static Object m_hopfeed;
     }
+
+    public static class Feeder{}
+
+   
     
   }
 }
