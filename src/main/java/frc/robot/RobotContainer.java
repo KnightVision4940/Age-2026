@@ -7,7 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.game.GameManager;
+import frc.robot.game.GameTracker;
 import frc.robot.subsystems.ExampleSubsystem;
 
 import java.util.NoSuchElementException;
@@ -28,7 +28,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
 
-  private GameManager gameManager;
+  private GameTracker gameTracker;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -41,19 +41,17 @@ public class RobotContainer {
   }
 
   public void periodic() {
-    if (gameManager == null) {
-      try {
-        gameManager = new GameManager(DriverStation.getAlliance().get());
-      } catch (NoSuchElementException exception) {
-        System.out.println("Unable to get current alliance. Alliance is null!");
-      }
-    } else {
-      try {
-        gameManager.periodic();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
+    if (gameTracker == null && !getGameSpecificMessage().isEmpty())
+      gameTracker = new GameTracker();
+    else if (gameTracker != null)
+      gameTracker.updateTracking();
+  }
+
+  /**
+   * Used to be able to override the actual game-specific message for debugging.
+   */
+  public static String getGameSpecificMessage() {
+    return "R";//DriverStation.getGameSpecificMessage();
   }
 
   /**
