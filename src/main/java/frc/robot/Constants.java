@@ -17,7 +17,8 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
   public static class MotorIDs{
-    public static int shooterMotor = 0;
+    public static int leadMotor = 5;
+    public static int followMotor = 6; 
   }
 
   public static class OperatorConstants {

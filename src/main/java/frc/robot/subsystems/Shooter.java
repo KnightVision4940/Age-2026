@@ -4,47 +4,61 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import frc.robot.Constants;
-import edu.wpi.first.units.measure.Velocity;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
-
-  SparkMax shooterMotor;
+  /** Creates a new Shooter. */
+  SparkMax leadMotor;
+  SparkMax followMotor;
   SparkClosedLoopController m_Controller;
 
-  public void Shooter(){
-    shooterMotor = new SparkMax(Constants.MotorIDs.shooterMotor, MotorType.kBrushless);
-    m_Controller = shooterMotor.getClosedLoopController();
-    SparkMaxConfig config = new SparkMaxConfig();
-    config.closedLoop
+  public Shooter(){
+    leadMotor = new SparkMax(Constants.MotorIDs.leadMotor, MotorType.kBrushless);
+    followMotor = new SparkMax(Constants.MotorIDs.followMotor, MotorType.kBrushless);
+    m_Controller = leadMotor.getClosedLoopController();
+    SparkMaxConfig baseConfig = new SparkMaxConfig();
+    SparkMaxConfig followConfig = new SparkMaxConfig();
+    baseConfig.closedLoop
       .p(1)
       .i(0)
       .d(0)
       .outputRange(1, -1);
+
+      followConfig.apply(baseConfig).follow(Constants.MotorIDs.leadMotor, true);
+
+      leadMotor.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      // followMotor.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      
+      followMotor.configure(followConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public void shooterShoot(double speed){
     m_Controller.setSetpoint(speed, ControlType.kVelocity);
   }
 
+  public void shooterSetPower(double speed){
+    leadMotor.set(speed);
+  }
+
   public void Stop(){
-    shooterMotor.set(0);
+    leadMotor.set(0);
   }
 
   public double getCurrentVelocity(){
-    return shooterMotor.getEncoder().getVelocity();
+    return leadMotor.getEncoder().getVelocity();
   }
 
   public void periodic(){
-    SmartDashboard.putNumber("Shooter Velocity: ", getCurrentVelocity());
+    SmartDashboard.putNumber("Shooter Velocity: ", this.getCurrentVelocity());
   }
 }
