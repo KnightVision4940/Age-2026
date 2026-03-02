@@ -37,8 +37,6 @@ public class Shooter extends SubsystemBase {
       followConfig.apply(baseConfig).follow(Constants.MotorIDs.leadMotor, true);
 
       leadMotor.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      // followMotor.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      
       followMotor.configure(followConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
