@@ -14,32 +14,42 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 
 public class Climber extends SubsystemBase {
- 
-    SparkMax leadMotor;
-    SparkMax followMotor;
-    SparkClosedLoopController m_leadMotor;
-    SparkClosedLoopController m_followMotor;
+
+  SparkMax leadMotor;
+  SparkMax followMotor;
+  SparkClosedLoopController m_leadMotor;
+  SparkClosedLoopController m_followMotor;
+  Servo climbServo;
+  boolean locked;
+  SparkMaxConfig config;
+  SparkClosedLoopController climbController;
 
   public Climber() {
-    leadMotor = new SparkMax(Constants.ClimbMotorIDs.leadMotor, MotorType.kBrushless);
-    followMotor = new SparkMax(Constants.ClimbMotorIDs.followMotor, MotorType.kBrushless);
-    m_leadMotor = leadMotor.getClosedLoopController();
-    m_followMotor = followMotor.getClosedLoopController();
+    locked = false;
+  climbServo = new Servo(Constants.ClimbServoConstants.climbServo);
+  leadMotor = new SparkMax(Constants.ClimbMotorIDs.leadMotor, MotorType.kBrushless);
+  followMotor = new SparkMax(Constants.ClimbMotorIDs.followMotor, MotorType.kBrushless);
+  m_leadMotor = leadMotor.getClosedLoopController();
+  m_followMotor = followMotor.getClosedLoopController();
 
-    SparkMaxConfig config = new SparkMaxConfig();
-    SparkMaxConfig followerConfig = new SparkMaxConfig();
+  SparkMaxConfig config = new SparkMaxConfig();
+  SparkMaxConfig followerConfig = new SparkMaxConfig();
 
-    config.closedLoop
-      .p(1)
-      .i(0)
-      .d(0)
-      .outputRange(1, -1);
-    followerConfig.apply(config).follow(Constants.ClimbMotorIDs.leadMotor, true);
+  config.closedLoop
+    .p(1)
+    .i(0)
+    .d(0)
+    .outputRange(1, -1);
+  followerConfig.apply(config).follow(Constants.ClimbMotorIDs.leadMotor, true);
 
-    leadMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    followMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  leadMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  followMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public void climb(double speed) {
@@ -50,17 +60,35 @@ public class Climber extends SubsystemBase {
     leadMotor.set(speed);
   }
 
-  public void Stop (double speed){
+  public void stop(double speed){
     leadMotor.set(0);
   }
+
 
   public double getPosition(){
     return leadMotor.getEncoder().getPosition();
   }
 
+  // Climb lock
+  public void lock(){
+    climbServo.set(1.0);
+    locked = true;
+  }
+  // Climb unlock
+  public void unlock(){
+    climbServo.set(0.0);
+    locked = false;
+  }
+
+  public boolean isLocked(){
+    return locked;
+  }  
+
 
     @Override
   public void periodic() {
+    SmartDashboard.putBoolean("Locked", this.isLocked());
     SmartDashboard.putNumber("Climb Position: ", this.getPosition());
-  }
+    // This method will be called once per scheduler run
+  }  
 }
