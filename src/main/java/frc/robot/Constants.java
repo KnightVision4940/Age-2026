@@ -27,4 +27,9 @@ public final class Constants {
     public static class ClimbServoConstants{
       public static int climbServo = 4;
     }
+
+    public static class ClimbPositions{
+      public static double top = 100;
+      public static double bottom = 5;
+    }
 }

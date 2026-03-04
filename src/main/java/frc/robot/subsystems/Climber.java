@@ -32,60 +32,61 @@ public class Climber extends SubsystemBase {
 
   public Climber() {
     locked = false;
-  climbServo = new Servo(Constants.ClimbServoConstants.climbServo);
-  leadMotor = new SparkMax(Constants.ClimbMotorIDs.leadMotor, MotorType.kBrushless);
-  followMotor = new SparkMax(Constants.ClimbMotorIDs.followMotor, MotorType.kBrushless);
-  m_leadMotor = leadMotor.getClosedLoopController();
-  m_followMotor = followMotor.getClosedLoopController();
+    climbServo = new Servo(Constants.ClimbServoConstants.climbServo);
+    leadMotor = new SparkMax(Constants.ClimbMotorIDs.leadMotor, MotorType.kBrushless);
+    followMotor = new SparkMax(Constants.ClimbMotorIDs.followMotor, MotorType.kBrushless);
+    m_leadMotor = leadMotor.getClosedLoopController();
+    m_followMotor = followMotor.getClosedLoopController();
 
-  SparkMaxConfig config = new SparkMaxConfig();
-  SparkMaxConfig followerConfig = new SparkMaxConfig();
+    SparkMaxConfig config = new SparkMaxConfig();
+    SparkMaxConfig followerConfig = new SparkMaxConfig();
 
-  config.closedLoop
-    .p(1)
-    .i(0)
-    .d(0)
-    .outputRange(1, -1);
-  followerConfig.apply(config).follow(Constants.ClimbMotorIDs.leadMotor, true);
+    config.closedLoop
+      .p(1)
+      .i(0)
+      .d(0)
+      .outputRange(1, -1);
+    followerConfig.apply(config).follow(Constants.ClimbMotorIDs.leadMotor, true);
 
-  leadMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  followMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    leadMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    followMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
-  public void climb(double speed) {
-    m_leadMotor.setSetpoint(speed, ControlType.kPosition);
+  public void goToPosition(double position) {
+    m_leadMotor.setSetpoint(position, ControlType.kPosition);
   }
 
-  public void manualControl(double speed){
+  // TODO: Make sure a lock check
+  public void manualControl(double speed) {
     leadMotor.set(speed);
   }
 
-  public void stop(double speed){
+  public void stop() {
     leadMotor.set(0);
   }
 
 
-  public double getPosition(){
+  public double getPosition() {
     return leadMotor.getEncoder().getPosition();
   }
 
   // Climb lock
-  public void lock(){
+  public void lock() {
     climbServo.set(1.0);
     locked = true;
   }
   // Climb unlock
-  public void unlock(){
+  public void unlock() {
     climbServo.set(0.0);
     locked = false;
   }
 
-  public boolean isLocked(){
+  public boolean isLocked() {
     return locked;
   }  
 
 
-    @Override
+  @Override
   public void periodic() {
     SmartDashboard.putBoolean("Locked", this.isLocked());
     SmartDashboard.putNumber("Climb Position: ", this.getPosition());
