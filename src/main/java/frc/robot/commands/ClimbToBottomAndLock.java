@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
@@ -21,8 +22,8 @@ public class ClimbToBottomAndLock extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.goToPosition(Constants.ClimbPositions.bottom);
     climber.unlock();
+    climber.goToPosition(Constants.ClimbPositions.bottom);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

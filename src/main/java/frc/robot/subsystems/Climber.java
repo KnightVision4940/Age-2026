@@ -14,6 +14,8 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,6 +31,7 @@ public class Climber extends SubsystemBase {
   boolean locked;
   SparkMaxConfig config;
   SparkClosedLoopController climbController;
+  DigitalInput laserSensor;
 
   public Climber() {
     locked = false;
@@ -37,9 +40,9 @@ public class Climber extends SubsystemBase {
     followMotor = new SparkMax(Constants.ClimbMotorIDs.followMotor, MotorType.kBrushless);
     m_leadMotor = leadMotor.getClosedLoopController();
     m_followMotor = followMotor.getClosedLoopController();
-
     SparkMaxConfig config = new SparkMaxConfig();
     SparkMaxConfig followerConfig = new SparkMaxConfig();
+    laserSensor = new DigitalInput(0);
 
     config.closedLoop
       .p(1)
@@ -70,6 +73,10 @@ public class Climber extends SubsystemBase {
     return leadMotor.getEncoder().getPosition();
   }
 
+  public boolean getLaser(){
+    return laserSensor.get();
+  }
+
   // Climb lock
   public void lock() {
     climbServo.set(1.0);
@@ -90,6 +97,7 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("Locked", this.isLocked());
     SmartDashboard.putNumber("Climb Position: ", this.getPosition());
+    SmartDashboard.putBoolean("Pipe Within Climber: ", this.getLaser());
     // This method will be called once per scheduler run
   }  
 }
