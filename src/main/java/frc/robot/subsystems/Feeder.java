@@ -17,11 +17,9 @@ import frc.robot.Constants;
 
 public class Feeder extends SubsystemBase {
   public SparkMax m_shootfeed;
-  public SparkMax m_hopfeed;
   /** Creates a new Feeder. */
   public Feeder() {
     m_shootfeed = new SparkMax(Constants.Motors.Intake.kShootFeed, MotorType.kBrushless);
-    m_hopfeed = new SparkMax(Constants.Motors.Intake.kHopFeed, MotorType.kBrushless);
     SparkMaxConfig config = new SparkMaxConfig();
     config
         .smartCurrentLimit(Constants.Motors.Intake.kCurrentLimit)
@@ -30,18 +28,15 @@ public class Feeder extends SubsystemBase {
 
     // Persist parameters to retain configuration in the event of a power cycle
     m_shootfeed.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    m_hopfeed.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   
   public void spin(double speed){
-    m_shootfeed.set(speed);
-    m_hopfeed.set(speed);
+    m_shootfeed.set(-speed);
   }
 
   public void stop(){
     m_shootfeed.set(0);
-    m_hopfeed.set(0);
   }
 
   @Override
