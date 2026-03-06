@@ -42,7 +42,7 @@ public class Climber extends SubsystemBase {
     m_followMotor = followMotor.getClosedLoopController();
     SparkMaxConfig config = new SparkMaxConfig();
     SparkMaxConfig followerConfig = new SparkMaxConfig();
-    laserSensor = new DigitalInput(0);
+    laserSensor = new DigitalInput(9);
 
     config.closedLoop
       .p(1)
