@@ -23,7 +23,7 @@ public class ShooterVariableSpeed extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    this.m_Shooter.shooterShoot(1.0);
+    this.m_Shooter.shooterShoot(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
