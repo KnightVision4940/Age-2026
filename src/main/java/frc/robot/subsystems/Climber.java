@@ -53,6 +53,8 @@ public class Climber extends SubsystemBase {
 
     leadMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     followMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    leadMotor.getEncoder().setPosition(0);
   }
 
   public void goToPosition(double position) {
