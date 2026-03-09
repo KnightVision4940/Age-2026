@@ -11,7 +11,6 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,10 +18,10 @@ public class Feeder extends SubsystemBase {
   public SparkMax m_shootfeed;
   /** Creates a new Feeder. */
   public Feeder() {
-    m_shootfeed = new SparkMax(Constants.Motors.Intake.kShootFeed, MotorType.kBrushless);
+    m_shootfeed = new SparkMax(Constants.Motors.Feeder.kFeederID, MotorType.kBrushless);
     SparkMaxConfig config = new SparkMaxConfig();
     config
-        .smartCurrentLimit(Constants.Motors.Intake.kCurrentLimit)
+        .smartCurrentLimit(Constants.Motors.Feeder.kCurrentLimit)
         .idleMode(IdleMode.kCoast);
     
 

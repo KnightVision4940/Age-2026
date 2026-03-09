@@ -18,17 +18,11 @@ public final class Constants {
   }
   public static class Motors {
 
-    public static class Intake {
-      public static final int kShootFeed = 100;
-      public static final int kHopFeed = 100;
+    
+    public static class Feeder{
+      public static final int kFeederID = 7;
       public static final int kCurrentLimit = 40;
-      public static final int stowPosition = 0;
-      public static final int grabPosition = 100;
-      public static Object m_shootfeed;
-      public static Object m_hopfeed;
     }
-
-    public static class Feeder{}
 
    
     
