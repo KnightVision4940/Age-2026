@@ -45,7 +45,7 @@ public class Climber extends SubsystemBase {
     laserSensor = new DigitalInput(9);
 
     config.closedLoop
-      .p(1)
+      .p(0.0002)
       .i(0)
       .d(0)
       .outputRange(1, -1);
