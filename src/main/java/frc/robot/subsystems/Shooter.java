@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
     SparkMaxConfig baseConfig = new SparkMaxConfig();
     SparkMaxConfig followConfig = new SparkMaxConfig();
     baseConfig.closedLoop
-      .p(1)
+      .p(0.00002)
       .i(0)
       .d(0)
       .outputRange(1, -1);
