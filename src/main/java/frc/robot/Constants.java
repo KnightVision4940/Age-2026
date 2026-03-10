@@ -25,5 +25,16 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final double DEADBAND = 0.2;
   }
+  public static class Motors {
+
+    
+    public static class Feeder{
+      public static final int kFeederID = 7;
+      public static final int kCurrentLimit = 40;
+    }
+
+   
+    
+  }
   public static final double maximumSpeed = Units.feetToMeters(9.0);
 }

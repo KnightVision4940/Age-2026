@@ -7,7 +7,9 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.FeedShooter;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 
@@ -30,6 +32,8 @@ import frc.robot.commands.ShooterVariableSpeed;;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Feeder m_Feeder = new Feeder();
+
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
   public final static Shooter m_Shooter = new Shooter();
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -97,6 +101,7 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController.a().whileTrue(new FeedShooter(m_Feeder));
     m_driverController.povUp().whileTrue(new ShooterVariableSpeed(m_Shooter, 1));
     m_driverController.povRight().whileTrue(new ShooterVariableSpeed(m_Shooter, 0.75));
     m_driverController.povDown().whileTrue(new ShooterVariableSpeed(m_Shooter, 0.5));
