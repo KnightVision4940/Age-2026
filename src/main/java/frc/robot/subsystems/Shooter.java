@@ -32,7 +32,9 @@ public class Shooter extends SubsystemBase {
       .p(0.00002)
       .i(0)
       .d(0)
-      .outputRange(1, -1);
+      .outputRange(-1, 1)
+      .feedForward.kV(0.00017);
+
 
       followConfig.apply(baseConfig).follow(Constants.MotorIDs.leadMotor, true);
 
