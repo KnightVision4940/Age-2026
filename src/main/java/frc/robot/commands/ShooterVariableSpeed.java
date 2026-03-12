@@ -12,18 +12,18 @@ import frc.robot.subsystems.Shooter;
 public class ShooterVariableSpeed extends Command {
   
   double speed;
-  Shooter m_Shooter;
+  Shooter shooter;
 
-  public ShooterVariableSpeed(Shooter Shooter, double speed) {
+  public ShooterVariableSpeed(Shooter shooter, double speed) {
     this.speed = speed;
-    this.m_Shooter = Shooter;
-    addRequirements(RobotContainer.m_Shooter);
+    this.shooter = shooter;
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    this.m_Shooter.shooterShoot(speed);
+    this.shooter.shooterShoot(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,7 +33,7 @@ public class ShooterVariableSpeed extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Shooter.Stop();
+    shooter.Stop();
   }
 
   // Returns true when the command should end.

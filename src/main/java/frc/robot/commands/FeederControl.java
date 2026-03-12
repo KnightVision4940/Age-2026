@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class FeederControl extends Command {
   double speed;
   Feeder feeder;
-  Shooter m_Shooter;
+  Shooter shooter;
   boolean readyToShoot = false;
 
   /**
@@ -21,24 +21,27 @@ public class FeederControl extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public FeederControl(Feeder feeder, double speed, Shooter m_Shooter) {
+  public FeederControl(Feeder feeder, double speed, Shooter shooter) {
     this.feeder = feeder;
-    this.m_Shooter = m_Shooter;
+    this.shooter = shooter;
+    this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(feeder, m_Shooter);
+    addRequirements(feeder, shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    this.m_Shooter.shooterShoot(speed);}
+    this.shooter.shooterShoot(speed);
+    this.readyToShoot = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
     
-    if(this.m_Shooter.getCurrentVelocity() >= this.speed) {
+    if(this.shooter.getCurrentVelocity() >= this.speed) {
       readyToShoot = true;
     }
     
@@ -48,7 +51,11 @@ public class FeederControl extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    this.feeder.stop();
+    this.shooter.Stop();;
+
+  }
 
   // Returns true when the command should end.
   @Override
