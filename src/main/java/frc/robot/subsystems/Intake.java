@@ -38,7 +38,7 @@ public class Intake extends SubsystemBase {
       .p(0.0008)
       .i(0)
       .d(0)
-      .outputRange(-1, 1);
+      .outputRange(-0.5, 0.5);
 
     // Persist parameters to retain configuration in the event of a power cycle
     m_roller.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
