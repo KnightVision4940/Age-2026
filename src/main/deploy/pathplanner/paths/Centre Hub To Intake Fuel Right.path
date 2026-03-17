@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1451325301204818,
-        "y": 6.023843373493976
+        "x": 3.025,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.8863593489507242,
-        "y": 5.842702146675144
+        "x": 2.968150386139805,
+        "y": 3.0016172470420237
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.5122967189702767,
-        "y": 6.758587731818836
+        "x": 7.538,
+        "y": 2.424
       },
       "prevControl": {
-        "x": 1.874332525796829,
-        "y": 5.351313776289174
-      },
-      "nextControl": {
-        "x": 2.9522111269588653,
-        "y": 7.728987161205428
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 6.950256776031323,
-        "y": 5.839942938660431
-      },
-      "prevControl": {
-        "x": 6.005734664762003,
-        "y": 7.974821683316696
+        "x": 3.4399518072289155,
+        "y": 2.0024457831325315
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,10 +45,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Fuel",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 1.6846843178962931
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

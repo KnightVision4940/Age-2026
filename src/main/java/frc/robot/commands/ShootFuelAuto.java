@@ -4,69 +4,56 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Feeder;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShooterVariableSpeed extends Command {
+public class ShootFuelAuto extends Command {
   
   double speed;
   Shooter shooter;
+  double startTime;
+  Feeder feeder;
 
-  public ShooterVariableSpeed(Shooter shooter, double speed) {
+  public ShootFuelAuto(Feeder feeder, Shooter shooter, double speed, double startTime) {
     this.speed = speed;
     this.shooter = shooter;
+    this.feeder = feeder;
     addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    startTime = Timer.getFPGATimestamp();
     this.shooter.shooterShoot(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    this.feeder.spin(0.3);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     this.shooter.Stop();
+    this.feeder.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    double currentTime = Timer.getFPGATimestamp();
+    if ((currentTime - startTime) >= Constants.AutoConstants.AutoFuelIntakeTime)
+    {
+        return true;
+    }
     return false;
   }
 } 
-
-/*             
- *     _________\/_________     
- *    |                    |
- *    |     |        |     |
- *  \ |     |        |     | /
- *   \|                    |/
- *    |     |________|     |
- *    |                    |  \
- *    |____________________|   \
- *       |             |        \
- *       |             |         \  TWIN BROTHERS
- *       |_           _|         / 
- * Jeff                         /
- *                             / 
- *                            /  
- *     _________\/_________  /          
- *    |    ___      ___    |/
- *    |     |        |     |
- *    |     |        |     | 
- *   /|                    |\
- *  / |     |________|     | \
- *    |                    |
- *    |____________________|
- *       |             |
- *      _|             |_
- * Jeff's older brother named Jeff^2
- */

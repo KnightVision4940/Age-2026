@@ -6,6 +6,8 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.ShootFuelAuto;
+import frc.robot.commands.ShooterVariableSpeed;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FeedShooter;
 import frc.robot.commands.FeederControl;
@@ -16,6 +18,8 @@ import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 
 import java.io.File;
+
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -102,6 +106,9 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
+
+    NamedCommands.registerCommand("ShootFuelAuto", new ShootFuelAuto(m_Feeder, m_Shooter, 0, 0)); 
+    
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     m_driverController.a().whileTrue(new FeedShooter(m_Feeder));
     m_driverController.povUp().whileTrue(new ShooterVariableSpeed(m_Shooter, 5000));

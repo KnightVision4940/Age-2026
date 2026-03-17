@@ -36,5 +36,10 @@ public final class Constants {
    
     
   }
+
+  public static class AutoConstants{
+    public static final double AutoFuelIntakeTime = 1.0;
+  }
+  
   public static final double maximumSpeed = Units.feetToMeters(9.0);
 }
