@@ -42,7 +42,7 @@ public class ShootFuelAuto extends Command {
       readyToShoot = true;
     }
     
-    if(readyToShoot){
+    if(readyToShoot) {
       this.feeder.spin(0.3);
     }
       
