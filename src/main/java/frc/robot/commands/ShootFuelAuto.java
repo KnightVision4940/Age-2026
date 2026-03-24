@@ -18,6 +18,7 @@ public class ShootFuelAuto extends Command {
   Shooter shooter;
   double startTime;
   Feeder feeder;
+  boolean readyToShoot = false;
 
   public ShootFuelAuto(Feeder feeder, Shooter shooter, double speed, double startTime) {
     this.speed = speed;
@@ -31,12 +32,20 @@ public class ShootFuelAuto extends Command {
   public void initialize() {
     startTime = Timer.getFPGATimestamp();
     this.shooter.shooterShoot(speed);
+    this.readyToShoot = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.feeder.spin(0.3);
+    if(this.shooter.getCurrentVelocity() >= this.speed) {
+      readyToShoot = true;
+    }
+    
+    if(readyToShoot){
+      this.feeder.spin(0.3);
+    }
+      
   }
 
   // Called once the command ends or is interrupted.

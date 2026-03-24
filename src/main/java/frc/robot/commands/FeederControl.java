@@ -45,8 +45,10 @@ public class FeederControl extends Command {
       readyToShoot = true;
     }
     
-    if(readyToShoot)
+    if(readyToShoot){
       this.feeder.spin(0.3);
+    }
+      
   }
 
   // Called once the command ends or is interrupted.
