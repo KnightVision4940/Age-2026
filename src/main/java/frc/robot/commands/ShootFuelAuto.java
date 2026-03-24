@@ -23,7 +23,7 @@ public class ShootFuelAuto extends Command {
     this.speed = speed;
     this.shooter = shooter;
     this.feeder = feeder;
-    addRequirements(shooter);
+    addRequirements(shooter, feeder);
   }
 
   // Called when the command is initially scheduled.
