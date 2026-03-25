@@ -25,8 +25,8 @@ public final class Constants {
   public static class Motors {
 
     public static class Intake {
-      public static final int kRoller = 2;
-      public static final int kPivot = 5;
+      public static final int kRoller = 20;
+      public static final int kPivot = 22;
       public static final int kCurrentLimit = 40;
       public static final int stowPosition = 0;
       public static final int grabPosition = 100;
