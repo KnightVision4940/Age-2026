@@ -26,7 +26,6 @@ public class Climber extends SubsystemBase {
   SparkMax leadMotor;
   SparkMax followMotor;
   SparkClosedLoopController m_leadMotor;
-  SparkClosedLoopController m_followMotor;
   Servo climbServo;
   boolean locked;
   SparkMaxConfig config;
@@ -37,22 +36,17 @@ public class Climber extends SubsystemBase {
     locked = false;
     climbServo = new Servo(Constants.ClimbServoConstants.climbServo);
     leadMotor = new SparkMax(Constants.ClimbMotorIDs.leadMotor, MotorType.kBrushless);
-    followMotor = new SparkMax(Constants.ClimbMotorIDs.followMotor, MotorType.kBrushless);
     m_leadMotor = leadMotor.getClosedLoopController();
-    m_followMotor = followMotor.getClosedLoopController();
     SparkMaxConfig config = new SparkMaxConfig();
-    SparkMaxConfig followerConfig = new SparkMaxConfig();
-    laserSensor = new DigitalInput(9);
+    // laserSensor = new DigitalInput(9);
 
     config.closedLoop
       .p(0.0002)
       .i(0)
       .d(0)
       .outputRange(1, -1);
-    followerConfig.apply(config).follow(Constants.ClimbMotorIDs.leadMotor, true);
 
     leadMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    followMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     leadMotor.getEncoder().setPosition(0);
   }
@@ -75,9 +69,9 @@ public class Climber extends SubsystemBase {
     return leadMotor.getEncoder().getPosition();
   }
 
-  public boolean getLaser(){
-    return laserSensor.get();
-  }
+  // public boolean getLaser(){
+  //   return laserSensor.get();
+  // }
 
   // Climb lock
   public void lock() {
@@ -99,7 +93,7 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("Locked", this.isLocked());
     SmartDashboard.putNumber("Climb Position: ", this.getPosition());
-    SmartDashboard.putBoolean("Pipe Within Climber: ", this.getLaser());
+    // SmartDashboard.putBoolean("Pipe Within Climber: ", this.getLaser());
     // This method will be called once per scheduler run
   }  
 }
