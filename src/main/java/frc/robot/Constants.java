@@ -20,12 +20,12 @@ public final class Constants {
   }
 
     public static class ClimbMotorIDs{
-      public static int leadMotor = 2;
-      public static int followMotor = 3;
+      public static int leadMotor = 21;
+      
     }
 
     public static class ClimbServoConstants{
-      public static int climbServo = 4;
+      public static int climbServo = 9;
     }
 
     public static class ClimbPositions{
