@@ -41,10 +41,10 @@ public class Climber extends SubsystemBase {
     // laserSensor = new DigitalInput(9);
 
     config.closedLoop
-      .p(0.0002)
+      .p(0.007)
       .i(0)
       .d(0)
-      .outputRange(1, -1);
+      .outputRange(-0.7, 0.7);
 
     leadMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -55,7 +55,6 @@ public class Climber extends SubsystemBase {
     m_leadMotor.setSetpoint(position, ControlType.kPosition);
   }
 
-  // TODO: Make sure a lock check
   public void manualControl(double speed) {
     leadMotor.set(speed);
   }
@@ -75,12 +74,12 @@ public class Climber extends SubsystemBase {
 
   // Climb lock
   public void lock() {
-    climbServo.set(1.0);
+    climbServo.set(0.0);
     locked = true;
   }
   // Climb unlock
   public void unlock() {
-    climbServo.set(0.0);
+    climbServo.set(1.0);
     locked = false;
   }
 

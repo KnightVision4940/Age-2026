@@ -6,7 +6,11 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.ClimbToBottom;
+import frc.robot.commands.ClimbToTop;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ManualClimbControl;
+import frc.robot.commands.ManualClimbControlTest;
 import frc.robot.subsystems.Climber;
 import frc.robot.commands.FeedShooter;
 import frc.robot.commands.FeederControl;
@@ -20,6 +24,7 @@ import java.io.File;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -104,12 +109,21 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    m_driverController.a().whileTrue(new FeedShooter(m_Feeder));
-    m_driverController.povUp().whileTrue(new ShooterVariableSpeed(m_Shooter, 5000));
-    m_driverController.povRight().whileTrue(new ShooterVariableSpeed(m_Shooter, 3000));
-    m_driverController.povDown().whileTrue(new ShooterVariableSpeed(m_Shooter, 2500));
-    m_driverController.povLeft().whileTrue(new ShooterVariableSpeed(m_Shooter, 1250));
+    m_driverController.x().onTrue(new InstantCommand(() -> {
+      m_Climber.lock();
+    }, m_Climber));
+
+    m_driverController.y().onTrue(new InstantCommand(() -> {
+      m_Climber.unlock();
+    }, m_Climber));
+
+    m_driverController.povUp().whileTrue(new ManualClimbControl(m_Climber, 0.1));
+
+    m_driverController.povDown().whileTrue(new ManualClimbControl(m_Climber, -0.1));
+
+    m_driverController.a().whileTrue(new ClimbToTop(m_Climber));
+
+    m_driverController.b().whileTrue(new ClimbToBottom(m_Climber));
 
     m_driverController.rightBumper().whileTrue(new ShootFuel(m_Shooter, m_Feeder, 3000));
     m_driverController.leftBumper().whileTrue(new FeederControl(m_Feeder, 3000, m_Shooter));
