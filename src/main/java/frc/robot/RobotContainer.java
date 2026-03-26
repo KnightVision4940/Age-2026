@@ -50,11 +50,6 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     //new Trigger(m_exampleSubsystem::exampleCondition)
     //    .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    m_driverController.b().whileTrue(new AutoIntake(intake));
-    m_driverController.povUp().whileTrue(new ManualIntake(intake, 0.3));
-    m_driverController.povDown().whileTrue(new ManualIntake(intake, -0.3));
-    m_driverController.y().onTrue(new IntakeGrabPosition(intake));
   }
 
   public Command getAutonomousCommand() {
