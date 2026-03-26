@@ -16,6 +16,24 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+  public static class Operators {
+
+    public static class XboxController {
+      public static final int kPort = 0;
+    }
+    
+  }
+
+  public static class Motors {
+
+    public static class Intake {
+      public static final int kRoller = 20;
+      public static final int kPivot = 22;
+      public static final int kCurrentLimit = 40;
+      public static final double stowPosition = 0.20;
+      public static final double grabPosition = 1.95;
+    }
+    
   public static class MotorIDs{
     public static int leadMotor = 5;
     public static int followMotor = 6; 
@@ -50,3 +68,4 @@ public final class Constants {
   
   public static final double maximumSpeed = Units.feetToMeters(9.0);
 }
+
