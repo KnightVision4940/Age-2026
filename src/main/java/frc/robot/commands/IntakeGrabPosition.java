@@ -39,7 +39,8 @@ public class IntakeGrabPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return this.intake.getPivotPosition() >= 1.96;
+    
   }
 }
 

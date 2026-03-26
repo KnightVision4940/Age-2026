@@ -8,6 +8,7 @@ import frc.robot.Constants.Operators;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeGrabPosition;
 import frc.robot.commands.ManualIntake;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
@@ -51,8 +52,9 @@ public class RobotContainer {
     //    .onTrue(new ExampleCommand(m_exampleSubsystem));
 
     m_driverController.b().whileTrue(new AutoIntake(intake));
-    m_driverController.povUp().whileTrue(new ManualIntake(intake, 0.2));
-    m_driverController.povDown().whileTrue(new ManualIntake(intake, -0.2));
+    m_driverController.povUp().whileTrue(new ManualIntake(intake, 0.3));
+    m_driverController.povDown().whileTrue(new ManualIntake(intake, -0.3));
+    m_driverController.y().onTrue(new IntakeGrabPosition(intake));
   }
 
   public Command getAutonomousCommand() {

@@ -28,8 +28,8 @@ public final class Constants {
       public static final int kRoller = 20;
       public static final int kPivot = 22;
       public static final int kCurrentLimit = 40;
-      public static final int stowPosition = 0;
-      public static final int grabPosition = 100;
+      public static final double stowPosition = 0.20;
+      public static final double grabPosition = 1.95;
     }
     
   }
