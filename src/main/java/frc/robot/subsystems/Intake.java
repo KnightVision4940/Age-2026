@@ -43,6 +43,7 @@ public class Intake extends SubsystemBase {
     // Persist parameters to retain configuration in the event of a power cycle
     m_roller.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_pivot.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_pivot.getEncoder().setPosition(0);
 
   }
 
