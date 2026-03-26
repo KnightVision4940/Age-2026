@@ -35,7 +35,7 @@ public final class Constants {
   }
 
   public static class AutoConstants{
-    public static final double AutoFuelIntakeTime = 1.0;
+    public static final double AutoFuelIntakeTime = 10.0;
   }
     public static class ClimbMotorIDs{
       public static int leadMotor = 21;

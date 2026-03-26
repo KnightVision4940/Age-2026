@@ -20,7 +20,7 @@ public class ShootFuelAuto extends Command {
   Feeder feeder;
   boolean readyToShoot = false;
 
-  public ShootFuelAuto(Feeder feeder, Shooter shooter, double speed, double startTime) {
+  public ShootFuelAuto(Feeder feeder, Shooter shooter, double speed) {
     this.speed = speed;
     this.shooter = shooter;
     this.feeder = feeder;
