@@ -4,13 +4,18 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.Operators;
+import frc.robot.commands.AutoIntake;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ShootFuelAuto;
 import frc.robot.commands.ShooterVariableSpeed;
 import frc.robot.commands.ClimbToBottom;
 import frc.robot.commands.ClimbToTop;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeGrabPosition;
+import frc.robot.commands.ManualIntake;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
 import frc.robot.commands.ManualClimbControl;
 import frc.robot.commands.ManualClimbControlTest;
 import frc.robot.subsystems.Climber;
@@ -47,6 +52,7 @@ import frc.robot.commands.ShooterVariableSpeed;;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Intake intake = new Intake();
   private final Climber m_Climber = new Climber();
   private final Feeder m_Feeder = new Feeder();
 
@@ -54,6 +60,7 @@ public class RobotContainer {
   public final static Shooter m_Shooter = new Shooter();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
+      new CommandXboxController(Operators.XboxController.kPort);
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -142,13 +149,14 @@ public class RobotContainer {
     m_driverController.leftBumper().whileTrue(new FeederControl(m_Feeder, 3000, m_Shooter));
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
   public Command getAutonomousCommand() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getAutonomousCommand'");
     // An example command will be run in autonomous
     return m_autoChooser.getSelected();
   }
+
+  
 }
+  
+
