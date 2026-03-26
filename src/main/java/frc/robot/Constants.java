@@ -32,14 +32,24 @@ public final class Constants {
       public static final int kFeederID = 7;
       public static final int kCurrentLimit = 40;
     }
-
-   
-    
   }
 
   public static class AutoConstants{
     public static final double AutoFuelIntakeTime = 1.0;
   }
+    public static class ClimbMotorIDs{
+      public static int leadMotor = 21;
+      
+    }
+
+    public static class ClimbServoConstants{
+      public static int climbServo = 9;
+    }
+
+    public static class ClimbPositions{
+      public static double top = 100;
+      public static double bottom = 5;
+    }
   
   public static final double maximumSpeed = Units.feetToMeters(9.0);
 }
