@@ -50,7 +50,6 @@ public class RobotContainer {
     //new Trigger(m_exampleSubsystem::exampleCondition)
     //    .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-    m_driverController.a().whileTrue(intake.intakeCommand(1));
     m_driverController.b().whileTrue(new AutoIntake(intake));
     m_driverController.povUp().whileTrue(new ManualIntake(intake, 0.2));
     m_driverController.povDown().whileTrue(new ManualIntake(intake, -0.2));
