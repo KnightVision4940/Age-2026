@@ -28,7 +28,7 @@ public class AutoIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.spin(1);
+    intake.spin(-1);
   }
 
   // Called once the command ends or is interrupted.
