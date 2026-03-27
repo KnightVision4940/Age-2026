@@ -15,6 +15,8 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeGrabPosition;
 import frc.robot.commands.IntakeStowPosition;
 import frc.robot.commands.ManualIntake;
+import frc.robot.commands.OuttakeFeeder;
+import frc.robot.commands.ReverseFeeder;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.commands.ManualClimbControl;
@@ -69,8 +71,9 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     m_autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
-    m_autoChooser.addOption("Just Shoot", new ShootFuelAuto(m_Feeder, m_Shooter, 0));
+    m_autoChooser.addOption("Just Shoot", new ShootFuelAuto(m_Feeder, m_Shooter, 3000));
     m_autoChooser.addOption("Test", new PathPlannerAuto("Test Auto"));
+    m_autoChooser.addOption("Start Right", new PathPlannerAuto("Start Right"));
     SmartDashboard.putData("Auto Options", m_autoChooser);
     // drivebase.centerModulesCommand();
     drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity); 
@@ -83,9 +86,9 @@ public class RobotContainer {
                                                             .deadband(Constants.OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
-                                                            SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis( () -> m_driverController.getRightX()*1,
+    SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis( () -> m_driverController.getRightX()*1,
                                                             () -> m_driverController.getRightY()*-1)
-                                                           .headingWhile(true);
+                                          .headingWhile(true);
 
   SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getSwerveDrive(),
                                                                 () -> m_driverController.getLeftY() *-0.4,
@@ -147,9 +150,10 @@ public class RobotContainer {
 
     m_driverController.rightBumper().whileTrue(new ShootFuel(m_Shooter, m_Feeder, 3000));
     m_driverController.rightTrigger().whileTrue(new ShootFuel(m_Shooter, m_Feeder, 5000));
+    m_driverController.leftTrigger().whileTrue(new OuttakeFeeder(m_Feeder));
     m_driverController.leftBumper().whileTrue(new AutoIntake(intake));
     m_driverController.start().onTrue(new IntakeGrabPosition(intake));
-    m_driverController.back().onTrue(new IntakeStowPosition(intake)); 
+    m_driverController.back().onTrue(new IntakeStowPosition(intake));
 
   }
 
