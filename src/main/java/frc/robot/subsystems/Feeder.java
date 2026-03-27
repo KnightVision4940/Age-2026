@@ -18,10 +18,10 @@ public class Feeder extends SubsystemBase {
   public SparkMax m_shootfeed;
   /** Creates a new Feeder. */
   public Feeder() {
-    m_shootfeed = new SparkMax(Constants.Motors.Feeder.kFeederID, MotorType.kBrushless);
+    m_shootfeed = new SparkMax(Constants.Feeder.kFeederID, MotorType.kBrushless);
     SparkMaxConfig config = new SparkMaxConfig();
     config
-        .smartCurrentLimit(Constants.Motors.Feeder.kCurrentLimit)
+        .smartCurrentLimit(Constants.Feeder.kCurrentLimit)
         .idleMode(IdleMode.kCoast);
     
 

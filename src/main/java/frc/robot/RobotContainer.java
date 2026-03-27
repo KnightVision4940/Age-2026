@@ -13,6 +13,7 @@ import frc.robot.commands.ClimbToBottom;
 import frc.robot.commands.ClimbToTop;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeGrabPosition;
+import frc.robot.commands.IntakeStowPosition;
 import frc.robot.commands.ManualIntake;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
@@ -61,7 +62,6 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(Operators.XboxController.kPort);
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
   SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -80,7 +80,7 @@ public class RobotContainer {
                                                                 () -> m_driverController.getLeftY() *-1.0,
                                                                 () -> m_driverController.getLeftX() *-1.0)
                                                             .withControllerRotationAxis(()->m_driverController.getRightX()*-1)
-                                                            .deadband(OperatorConstants.DEADBAND)
+                                                            .deadband(Constants.OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
                                                             SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis( () -> m_driverController.getRightX()*1,
@@ -91,7 +91,7 @@ public class RobotContainer {
                                                                 () -> m_driverController.getLeftY() *-0.4,
                                                                 () -> m_driverController.getLeftX() *-0.4)
                                                             .withControllerRotationAxis(()->m_driverController.getRightX()*-1)
-                                                            .deadband(OperatorConstants.DEADBAND)
+                                                            .deadband(Constants.OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
                                                             SwerveInputStream driveDirectAngleSlow = driveAngularVelocity.copy().withControllerHeadingAxis( () -> m_driverController.getRightX()*1,
@@ -102,7 +102,7 @@ public class RobotContainer {
                                                               () -> m_driverController.getLeftY()*0.5,
                                                               () -> m_driverController.getLeftX()*0.5)
                                                             .withControllerRotationAxis(()-> m_driverController.getRightX()*-1)
-                                                            .deadband(OperatorConstants.DEADBAND)
+                                                            .deadband(Constants.OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .robotRelative(true)
                                                             .allianceRelativeControl(false);                                                         
@@ -141,17 +141,19 @@ public class RobotContainer {
 
     m_driverController.povDown().whileTrue(new ManualClimbControl(m_Climber, -0.1));
 
-    m_driverController.a().whileTrue(new ClimbToTop(m_Climber));
+    m_driverController.povRight().whileTrue(new ClimbToTop(m_Climber));
 
-    m_driverController.b().whileTrue(new ClimbToBottom(m_Climber));
+    m_driverController.povLeft().whileTrue(new ClimbToBottom(m_Climber));
 
     m_driverController.rightBumper().whileTrue(new ShootFuel(m_Shooter, m_Feeder, 3000));
-    m_driverController.leftBumper().whileTrue(new FeederControl(m_Feeder, 3000, m_Shooter));
+    m_driverController.rightTrigger().whileTrue(new ShootFuel(m_Shooter, m_Feeder, 5000));
+    m_driverController.leftBumper().whileTrue(new AutoIntake(intake));
+    m_driverController.start().onTrue(new IntakeGrabPosition(intake));
+    m_driverController.back().onTrue(new IntakeStowPosition(intake)); 
+
   }
 
   public Command getAutonomousCommand() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getAutonomousCommand'");
     // An example command will be run in autonomous
     return m_autoChooser.getSelected();
   }

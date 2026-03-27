@@ -33,6 +33,7 @@ public final class Constants {
       public static final double stowPosition = 0.20;
       public static final double grabPosition = 1.95;
     }
+  }
     
   public static class MotorIDs{
     public static int leadMotor = 5;
@@ -43,14 +44,12 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final double DEADBAND = 0.2;
   }
-  public static class Motors {
 
     
     public static class Feeder{
       public static final int kFeederID = 7;
       public static final int kCurrentLimit = 40;
     }
-  }
 
   public static class AutoConstants{
     public static final double AutoFuelIntakeTime = 10.0;
