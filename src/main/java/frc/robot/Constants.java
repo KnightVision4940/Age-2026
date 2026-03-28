@@ -68,6 +68,6 @@ public final class Constants {
       public static double bottom = 5;
     }
   
-  public static final double maximumSpeed = Units.feetToMeters(9.0);
+  public static final double maximumSpeed = Units.feetToMeters(15.0);
 }
 

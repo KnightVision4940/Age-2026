@@ -131,7 +131,7 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    NamedCommands.registerCommand("ShootFuelAuto", new ShootFuelAuto(m_Feeder, m_Shooter, 0)); 
+    NamedCommands.registerCommand("ShootFuelAuto", new ShootFuelAuto(m_Feeder, m_Shooter, 3000)); 
     m_driverController.x().onTrue(new InstantCommand(() -> {
       m_Climber.lock();
     }, m_Climber));
