@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Meter;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -66,6 +71,20 @@ public final class Constants {
     public static class ClimbPositions{
       public static double top = 100;
       public static double bottom = 5;
+    }
+
+    public static class SwerveStartingPositions{
+      public static Pose2d blue = new Pose2d(
+          new Translation2d(Meter.of(1),
+          Meter.of(4)
+          ),
+      Rotation2d.fromDegrees(0));
+
+      public static Pose2d red = new Pose2d(
+          new Translation2d(Meter.of(16),
+          Meter.of(4)
+          ),
+      Rotation2d.fromDegrees(180));
     }
   
   public static final double maximumSpeed = Units.feetToMeters(15.0);

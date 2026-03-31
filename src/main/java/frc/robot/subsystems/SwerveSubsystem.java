@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
@@ -41,17 +42,15 @@ public class SwerveSubsystem extends SubsystemBase {
   SparkMax driveMotor;
 
   private boolean robotRelative = false;
-
+  
   public SwerveSubsystem(File directory) {
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    boolean hasAlliance = DriverStation.getAlliance().isPresent();
+    boolean isRed = DriverStation.getAlliance().get() == Alliance.Red;
+    Pose2d startingPosition = (hasAlliance && isRed)? Constants.SwerveStartingPositions.red: Constants.SwerveStartingPositions.blue;
     try {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(
-        Constants.maximumSpeed,
-        new Pose2d(
-          new Translation2d(Meter.of(1),
-          Meter.of(4)
-          ),
-      Rotation2d.fromDegrees(0)));
+        Constants.maximumSpeed, startingPosition);
       // Alternative method if you don't want to supply the conversion factor via JSON files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch(Exception error){
