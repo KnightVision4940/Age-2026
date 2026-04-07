@@ -46,7 +46,7 @@ public class FeederControl extends Command {
     }
     
     if(readyToShoot){
-      this.feeder.spin(0.3);
+      this.feeder.spin(0.6);
     }
       
   }

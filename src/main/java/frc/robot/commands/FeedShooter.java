@@ -26,7 +26,7 @@ public class FeedShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.feeder.spin(0.3);
+    this.feeder.spin(1.0);
   }
 
   // Called once the command ends or is interrupted.

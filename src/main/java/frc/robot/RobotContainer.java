@@ -131,7 +131,8 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    NamedCommands.registerCommand("ShootFuelAuto", new ShootFuelAuto(m_Feeder, m_Shooter, 3000)); 
+    NamedCommands.registerCommand("ShootFuelAuto", new ShootFuelAuto(m_Feeder, m_Shooter, 3000));
+    NamedCommands.registerCommand("IntakeGrabPosition", new IntakeGrabPosition(intake)); 
     m_driverController.x().onTrue(new InstantCommand(() -> {
       m_Climber.lock();
     }, m_Climber));
@@ -148,8 +149,8 @@ public class RobotContainer {
 
     m_driverController.povLeft().whileTrue(new ClimbToBottom(m_Climber));
 
-    m_driverController.rightBumper().whileTrue(new ShootFuel(m_Shooter, m_Feeder, 3000));
-    m_driverController.rightTrigger().whileTrue(new ShootFuel(m_Shooter, m_Feeder, 5000));
+    m_driverController.rightBumper().whileTrue(new FeederControl(m_Feeder, 3000, m_Shooter));
+    m_driverController.rightTrigger().whileTrue(new FeederControl(m_Feeder, 5000, m_Shooter));
     m_driverController.leftTrigger().whileTrue(new OuttakeFeeder(m_Feeder));
     m_driverController.leftBumper().whileTrue(new AutoIntake(intake));
     m_driverController.start().onTrue(new IntakeGrabPosition(intake));

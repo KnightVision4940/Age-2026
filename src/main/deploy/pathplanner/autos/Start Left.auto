@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Starting Centre"
+            "pathName": "Start Left"
           }
         },
         {
@@ -17,9 +17,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Centre Hub to Tower Centre"
+            "name": "IntakeGrabPosition"
           }
         }
       ]
