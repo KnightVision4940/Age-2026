@@ -36,7 +36,7 @@ public final class Constants {
       public static final int kPivot = 22;
       public static final int kCurrentLimit = 40;
       public static final double stowPosition = 0.10;
-      public static final double grabPosition = 1.95;
+      public static final double grabPosition = 6.5;
     }
   }
     

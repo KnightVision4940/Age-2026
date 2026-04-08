@@ -35,7 +35,7 @@ public class Intake extends SubsystemBase {
     
     m_pivotController = m_pivot.getClosedLoopController();
     config.closedLoop
-      .p(0.1)
+      .p(0.065)
       .i(0)
       .d(0)
       .outputRange(-0.5, 0.5);

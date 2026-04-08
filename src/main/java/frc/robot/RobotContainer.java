@@ -76,46 +76,46 @@ public class RobotContainer {
     m_autoChooser.addOption("Start Right", new PathPlannerAuto("Start Right"));
     SmartDashboard.putData("Auto Options", m_autoChooser);
     // drivebase.centerModulesCommand();
-    drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity); 
+    // drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity); 
   }
 
-  SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> m_driverController.getLeftY() *-1.0,
-                                                                () -> m_driverController.getLeftX() *-1.0)
-                                                            .withControllerRotationAxis(()->m_driverController.getRightX()*-1)
-                                                            .deadband(Constants.OperatorConstants.DEADBAND)
-                                                            .scaleTranslation(0.8)
-                                                            .allianceRelativeControl(true);
-    SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis( () -> m_driverController.getRightX()*1,
-                                                            () -> m_driverController.getRightY()*-1)
-                                          .headingWhile(true);
+  // SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
+  //                                                               () -> m_driverController.getLeftY() *-1.0,
+  //                                                               () -> m_driverController.getLeftX() *-1.0)
+  //                                                           .withControllerRotationAxis(()->m_driverController.getRightX()*-1)
+  //                                                           .deadband(Constants.OperatorConstants.DEADBAND)
+  //                                                           .scaleTranslation(0.8)
+  //                                                           .allianceRelativeControl(true);
+  //   SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis( () -> m_driverController.getRightX()*1,
+  //                                                           () -> m_driverController.getRightY()*-1)
+  //                                         .headingWhile(true);
 
-  SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> m_driverController.getLeftY() *-0.4,
-                                                                () -> m_driverController.getLeftX() *-0.4)
-                                                            .withControllerRotationAxis(()->m_driverController.getRightX()*-1)
-                                                            .deadband(Constants.OperatorConstants.DEADBAND)
-                                                            .scaleTranslation(0.8)
-                                                            .allianceRelativeControl(true);
-                                                            SwerveInputStream driveDirectAngleSlow = driveAngularVelocity.copy().withControllerHeadingAxis( () -> m_driverController.getRightX()*1,
-                                                            () -> m_driverController.getRightY()*-1)
-                                                           .headingWhile(true);                                                         
+  // SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getSwerveDrive(),
+  //                                                               () -> m_driverController.getLeftY() *-0.4,
+  //                                                               () -> m_driverController.getLeftX() *-0.4)
+  //                                                           .withControllerRotationAxis(()->m_driverController.getRightX()*-1)
+  //                                                           .deadband(Constants.OperatorConstants.DEADBAND)
+  //                                                           .scaleTranslation(0.8)
+  //                                                           .allianceRelativeControl(true);
+  //                                                           SwerveInputStream driveDirectAngleSlow = driveAngularVelocity.copy().withControllerHeadingAxis( () -> m_driverController.getRightX()*1,
+  //                                                           () -> m_driverController.getRightY()*-1)
+  //                                                          .headingWhile(true);                                                         
 
-  SwerveInputStream driveRobotOriented = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                              () -> m_driverController.getLeftY()*0.5,
-                                                              () -> m_driverController.getLeftX()*0.5)
-                                                            .withControllerRotationAxis(()-> m_driverController.getRightX()*-1)
-                                                            .deadband(Constants.OperatorConstants.DEADBAND)
-                                                            .scaleTranslation(0.8)
-                                                            .robotRelative(true)
-                                                            .allianceRelativeControl(false);                                                         
+  // SwerveInputStream driveRobotOriented = SwerveInputStream.of(drivebase.getSwerveDrive(),
+  //                                                             () -> m_driverController.getLeftY()*0.5,
+  //                                                             () -> m_driverController.getLeftX()*0.5)
+  //                                                           .withControllerRotationAxis(()-> m_driverController.getRightX()*-1)
+  //                                                           .deadband(Constants.OperatorConstants.DEADBAND)
+  //                                                           .scaleTranslation(0.8)
+  //                                                           .robotRelative(true)
+  //                                                           .allianceRelativeControl(false);                                                         
                                                             
-                                                            Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
-                                                            Command driveRobotOrientedAngularVelocity  = drivebase.driveFieldOriented(driveRobotOriented);
-                                                            Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+  //                                                           Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
+  //                                                           Command driveRobotOrientedAngularVelocity  = drivebase.driveFieldOriented(driveRobotOriented);
+  //                                                           Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
 
-                                                            Command driveFieldOrientedDirectAngleSlow = drivebase.driveFieldOriented(driveDirectAngleSlow);
-                                                            Command driveFieldOrientedAngularVelocitySlow = drivebase.driveFieldOriented(driveAngularVelocitySlow);
+  //                                                           Command driveFieldOrientedDirectAngleSlow = drivebase.driveFieldOriented(driveDirectAngleSlow);
+  //                                                           Command driveFieldOrientedAngularVelocitySlow = drivebase.driveFieldOriented(driveAngularVelocitySlow);
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -141,13 +141,16 @@ public class RobotContainer {
       m_Climber.unlock();
     }, m_Climber));
 
-    m_driverController.povUp().whileTrue(new ManualClimbControl(m_Climber, 0.1));
+    // m_driverController.povUp().whileTrue(new ManualClimbControl(m_Climber, 0.1));
 
-    m_driverController.povDown().whileTrue(new ManualClimbControl(m_Climber, -0.1));
+    // m_driverController.povDown().whileTrue(new ManualClimbControl(m_Climber, -0.1));
 
-    m_driverController.povRight().whileTrue(new ClimbToTop(m_Climber));
+    // m_driverController.povRight().whileTrue(new ClimbToTop(m_Climber));
 
-    m_driverController.povLeft().whileTrue(new ClimbToBottom(m_Climber));
+    // m_driverController.povLeft().whileTrue(new ClimbToBottom(m_Climber));
+
+    m_driverController.povUp().whileTrue(new ManualIntake(intake, 0.2));    
+    m_driverController.povDown().whileTrue(new ManualIntake(intake, -0.2));    
 
     m_driverController.rightBumper().whileTrue(new FeederControl(m_Feeder, 3000, m_Shooter));
     m_driverController.rightTrigger().whileTrue(new FeederControl(m_Feeder, 5000, m_Shooter));
