@@ -74,6 +74,8 @@ public class RobotContainer {
     m_autoChooser.addOption("Just Shoot", new ShootFuelAuto(m_Feeder, m_Shooter, 3000));
     m_autoChooser.addOption("Test", new PathPlannerAuto("Test Auto"));
     m_autoChooser.addOption("Start Right", new PathPlannerAuto("Start Right"));
+    m_autoChooser.addOption("Start Left", new PathPlannerAuto("Start Left"));
+    m_autoChooser.addOption("Start Center", new PathPlannerAuto("Start Center"));
     SmartDashboard.putData("Auto Options", m_autoChooser);
     // drivebase.centerModulesCommand();
     drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity); 

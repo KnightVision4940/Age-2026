@@ -15,6 +15,12 @@
           "data": {
             "name": "ShootFuelAuto"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeGrabPosition"
+          }
         }
       ]
     }
