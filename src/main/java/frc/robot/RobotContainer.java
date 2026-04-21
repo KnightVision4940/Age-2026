@@ -155,7 +155,7 @@ public class RobotContainer {
     m_driverController.povDown().whileTrue(new ManualIntake(intake, -0.2));    
 
     m_driverController.rightBumper().whileTrue(new FeederControl(m_Feeder, 3000, m_Shooter));
-    m_driverController.rightTrigger().whileTrue(new FeederControl(m_Feeder, 5000, m_Shooter));
+    m_driverController.rightTrigger().whileTrue(new FeederControl(m_Feeder, 4500, m_Shooter));
     m_driverController.leftTrigger().whileTrue(new OuttakeFeeder(m_Feeder));
     m_driverController.leftBumper().whileTrue(new AutoIntake(intake));
     m_driverController.start().onTrue(new IntakeGrabPosition(intake));
